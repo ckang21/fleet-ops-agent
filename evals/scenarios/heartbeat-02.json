@@ -1,0 +1,29 @@
+{
+  "id": "heartbeat-02",
+  "description": "Heartbeat lost on another seed",
+  "setup": {
+    "seed": 207,
+    "warmupTicks": 5,
+    "faults": [
+      {
+        "faultCode": "HEARTBEAT_LOST"
+      }
+    ],
+    "ticks": 7
+  },
+  "expected": {
+    "groups": [
+      {
+        "rootCause": "HEARTBEAT_LOST",
+        "mustCallTools": [
+          "reassignJob"
+        ],
+        "mustNotCallTools": [
+          "resetRobot",
+          "sendToCharger"
+        ],
+        "escalate": true
+      }
+    ]
+  }
+}

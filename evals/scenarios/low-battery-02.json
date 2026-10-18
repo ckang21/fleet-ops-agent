@@ -1,0 +1,30 @@
+{
+  "id": "low-battery-02",
+  "description": "Low battery on a robot mid-delivery",
+  "setup": {
+    "seed": 202,
+    "warmupTicks": 5,
+    "faults": [
+      {
+        "faultCode": "LOW_BATTERY"
+      }
+    ],
+    "ticks": 2
+  },
+  "expected": {
+    "groups": [
+      {
+        "rootCause": "LOW_BATTERY",
+        "mustCallTools": [
+          "sendToCharger"
+        ],
+        "mustNotCallTools": [
+          "resetRobot",
+          "setOutOfService",
+          "rerouteAround"
+        ],
+        "escalate": false
+      }
+    ]
+  }
+}

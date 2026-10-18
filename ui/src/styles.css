@@ -1,0 +1,297 @@
+:root {
+  --bg: #f6f7f9;
+  --panel: #ffffff;
+  --text: #1d2330;
+  --muted: #6b7385;
+  --border: #e1e4ea;
+  --zone: #eef1f6;
+  --blocked: #f9d6d6;
+  --accent: #2f80ed;
+  --danger: #c0392b;
+  --ok: #1e8e4e;
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color: var(--text);
+  background: var(--bg);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+}
+
+h1,
+h2 {
+  margin: 0;
+}
+
+h1 {
+  font-size: 20px;
+}
+
+h2 {
+  font-size: 15px;
+  display: inline;
+}
+
+button {
+  font: inherit;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+select {
+  font: inherit;
+  padding: 3px;
+}
+
+.app {
+  padding: 16px;
+  max-width: 1400px;
+}
+
+.top {
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.stats {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+main {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(20, 28px);
+  grid-auto-rows: 28px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+}
+
+.cell {
+  border: 1px solid #f0f2f5;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  gap: 1px;
+}
+
+.cell.zone {
+  background: var(--zone);
+}
+
+.cell.blocked {
+  background: repeating-linear-gradient(45deg, var(--blocked), var(--blocked) 4px, #fff 4px, #fff 8px);
+}
+
+.zone-label {
+  position: absolute;
+  top: 0;
+  left: 1px;
+  font-size: 8px;
+  color: var(--muted);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.robot {
+  min-width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 9px;
+  line-height: 16px;
+  text-align: center;
+  z-index: 2;
+}
+
+.robot.hl {
+  outline: 2px solid var(--danger);
+  outline-offset: 1px;
+}
+
+.legend {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+
+.legend i {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  vertical-align: middle;
+}
+
+.legend .legend-blocked {
+  border-radius: 2px;
+  background: var(--blocked);
+}
+
+.side {
+  flex: 1;
+  min-width: 340px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.panel > header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.panel summary {
+  cursor: pointer;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.small {
+  font-size: 12px;
+}
+
+.error {
+  color: var(--danger);
+}
+
+.banner {
+  padding: 8px;
+  background: #fdecea;
+  border-radius: 6px;
+}
+
+.incidents {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 260px;
+  overflow: auto;
+}
+
+.incidents li {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 6px 0;
+  border-top: 1px solid var(--border);
+}
+
+.incidents li > div {
+  flex: 1;
+}
+
+.sev {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: #eef1f6;
+}
+
+.sev-HIGH,
+.sev-CRITICAL {
+  background: #fdecea;
+  color: var(--danger);
+}
+
+.sev-MEDIUM {
+  background: #fff4e0;
+  color: #a5610a;
+}
+
+.tag {
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: #eef1f6;
+  margin-left: 6px;
+}
+
+.tag.high {
+  background: var(--danger);
+  color: #fff;
+  margin-left: 0;
+}
+
+.approval,
+.diagnosis {
+  border-top: 1px solid var(--border);
+  padding: 8px 0;
+}
+
+.approval p,
+.diagnosis p {
+  margin: 4px 0;
+}
+
+.buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+button.approve {
+  background: var(--ok);
+  color: #fff;
+  border-color: var(--ok);
+}
+
+button.reject {
+  color: var(--danger);
+}
+
+.decided {
+  padding-left: 16px;
+  margin: 8px 0 0;
+  color: var(--muted);
+}
+
+.row {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}

@@ -1,0 +1,29 @@
+{
+  "id": "stuck-02",
+  "description": "Motor jam on a second seed",
+  "setup": {
+    "seed": 205,
+    "warmupTicks": 5,
+    "faults": [
+      {
+        "faultCode": "STUCK"
+      }
+    ],
+    "ticks": 8
+  },
+  "expected": {
+    "groups": [
+      {
+        "rootCause": "STUCK",
+        "mustCallTools": [
+          "resetRobot"
+        ],
+        "mustNotCallTools": [
+          "rerouteAround",
+          "setOutOfService"
+        ],
+        "escalate": false
+      }
+    ]
+  }
+}

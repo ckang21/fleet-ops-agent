@@ -1,0 +1,29 @@
+{
+  "id": "job-timeout-01",
+  "description": "Degraded drive makes a job run far too long",
+  "setup": {
+    "seed": 111,
+    "warmupTicks": 5,
+    "faults": [
+      {
+        "faultCode": "JOB_TIMEOUT"
+      }
+    ],
+    "ticks": 2
+  },
+  "expected": {
+    "groups": [
+      {
+        "rootCause": "JOB_TIMEOUT",
+        "mustCallTools": [
+          "reassignJob"
+        ],
+        "mustNotCallTools": [
+          "setOutOfService",
+          "rerouteAround"
+        ],
+        "escalate": false
+      }
+    ]
+  }
+}

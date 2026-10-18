@@ -1,0 +1,166 @@
+enum RobotType {
+  AMR
+  FORKLIFT
+}
+
+enum RobotStatus {
+  IDLE
+  WORKING
+  CHARGING
+  FAULTED
+  OFFLINE
+}
+
+enum JobType {
+  PICK
+  DELIVER
+  RESTOCK
+}
+
+enum JobStatus {
+  QUEUED
+  ASSIGNED
+  IN_PROGRESS
+  DONE
+  FAILED
+}
+
+enum IncidentStatus {
+  OPEN
+  ACKED
+  RESOLVED
+}
+
+enum Severity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum FaultCode {
+  LOW_BATTERY
+  STUCK
+  HEARTBEAT_LOST
+  ZONE_BLOCKED
+  JOB_TIMEOUT
+  SENSOR_FAULT
+}
+
+type Position {
+  x: Int!
+  y: Int!
+}
+
+type Robot {
+  id: ID!
+  name: String!
+  type: RobotType!
+  status: RobotStatus!
+  battery: Float!
+  position: Position!
+  "Zone the robot is currently inside, if any."
+  zoneId: ID
+  currentJobId: ID
+  lastHeartbeat: Int!
+  faultCode: FaultCode
+  "Consecutive ticks the robot has not moved while WORKING."
+  stuckTicks: Int!
+  outOfService: Boolean!
+  outOfServiceReason: String
+  "Zones this robot has been told to route around."
+  avoidZones: [ID!]!
+}
+
+type Job {
+  id: ID!
+  type: JobType!
+  from: ID!
+  to: ID!
+  priority: Int!
+  status: JobStatus!
+  assignedRobotId: ID
+  createdAt: Int!
+  startedAt: Int
+}
+
+type Zone {
+  id: ID!
+  name: String!
+  minX: Int!
+  minY: Int!
+  maxX: Int!
+  maxY: Int!
+  blocked: Boolean!
+}
+
+type Incident {
+  id: ID!
+  robotId: ID
+  zoneId: ID
+  jobId: ID
+  type: FaultCode!
+  detectedAt: Int!
+  severity: Severity!
+  status: IncidentStatus!
+  resolution: String
+  escalated: Boolean!
+  notes: [String!]!
+}
+
+type RobotSnapshot {
+  tick: Int!
+  position: Position!
+  battery: Float!
+  status: RobotStatus!
+}
+
+type StatusCount {
+  status: RobotStatus!
+  count: Int!
+}
+
+type FleetSummary {
+  tick: Int!
+  robotCount: Int!
+  byStatus: [StatusCount!]!
+  avgBattery: Float!
+  openIncidents: Int!
+  queuedJobs: Int!
+  "Jobs completed in the last 60 ticks."
+  throughput: Int!
+}
+
+type FaultInjection {
+  faultCode: FaultCode!
+  robotIds: [ID!]!
+  zoneId: ID
+}
+
+type Query {
+  robots(status: RobotStatus): [Robot!]!
+  robot(id: ID!): Robot
+  jobs(status: JobStatus): [Job!]!
+  incidents(status: IncidentStatus): [Incident!]!
+  zones: [Zone!]!
+  fleetSummary: FleetSummary!
+  robotHistory(id: ID!, lastTicks: Int = 30): [RobotSnapshot!]!
+}
+
+type Mutation {
+  "Null robotId picks the best idle robot (never the one that had the job)."
+  reassignJob(jobId: ID!, robotId: ID): Job!
+  sendToCharger(robotId: ID!): Robot!
+  resetRobot(robotId: ID!): Robot!
+  setOutOfService(robotId: ID!, reason: String!): Robot!
+  rerouteAround(zoneId: ID!): [Robot!]!
+  clearZone(zoneId: ID!): Zone!
+  escalate(incidentId: ID!, note: String!): Incident!
+  resolveIncident(incidentId: ID!, resolution: String!): Incident!
+  "For demos and evals. count = robots trapped by ZONE_BLOCKED; durationTicks > 0 makes the fault clear on its own."
+  injectFault(robotId: ID, zoneId: ID, faultCode: FaultCode!, count: Int, durationTicks: Int): FaultInjection!
+  "scenario: 'default' (random faults) or 'eval' (no random faults). autoTick: false pauses the clock."
+  resetSimulation(seed: Int, scenario: String, autoTick: Boolean): Boolean!
+  "Run n ticks immediately. Used by evals with the clock paused."
+  advanceTicks(n: Int!): Int!
+}

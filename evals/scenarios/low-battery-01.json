@@ -1,0 +1,30 @@
+{
+  "id": "low-battery-01",
+  "description": "One working robot drops to 12% battery",
+  "setup": {
+    "seed": 101,
+    "warmupTicks": 5,
+    "faults": [
+      {
+        "faultCode": "LOW_BATTERY"
+      }
+    ],
+    "ticks": 1
+  },
+  "expected": {
+    "groups": [
+      {
+        "rootCause": "LOW_BATTERY",
+        "mustCallTools": [
+          "sendToCharger"
+        ],
+        "mustNotCallTools": [
+          "resetRobot",
+          "setOutOfService",
+          "rerouteAround"
+        ],
+        "escalate": false
+      }
+    ]
+  }
+}

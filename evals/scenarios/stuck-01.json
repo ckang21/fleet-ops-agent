@@ -1,0 +1,29 @@
+{
+  "id": "stuck-01",
+  "description": "Motor jam, nothing blocking the robot",
+  "setup": {
+    "seed": 104,
+    "warmupTicks": 5,
+    "faults": [
+      {
+        "faultCode": "STUCK"
+      }
+    ],
+    "ticks": 7
+  },
+  "expected": {
+    "groups": [
+      {
+        "rootCause": "STUCK",
+        "mustCallTools": [
+          "resetRobot"
+        ],
+        "mustNotCallTools": [
+          "rerouteAround",
+          "setOutOfService"
+        ],
+        "escalate": false
+      }
+    ]
+  }
+}

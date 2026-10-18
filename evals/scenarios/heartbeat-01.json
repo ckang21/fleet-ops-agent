@@ -1,0 +1,29 @@
+{
+  "id": "heartbeat-01",
+  "description": "Robot radio dies mid-job and goes OFFLINE",
+  "setup": {
+    "seed": 106,
+    "warmupTicks": 5,
+    "faults": [
+      {
+        "faultCode": "HEARTBEAT_LOST"
+      }
+    ],
+    "ticks": 7
+  },
+  "expected": {
+    "groups": [
+      {
+        "rootCause": "HEARTBEAT_LOST",
+        "mustCallTools": [
+          "reassignJob"
+        ],
+        "mustNotCallTools": [
+          "resetRobot",
+          "sendToCharger"
+        ],
+        "escalate": true
+      }
+    ]
+  }
+}

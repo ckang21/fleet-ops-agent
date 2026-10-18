@@ -1,0 +1,29 @@
+{
+  "id": "heartbeat-03",
+  "description": "Heartbeat lost, triaged a bit later",
+  "setup": {
+    "seed": 308,
+    "warmupTicks": 5,
+    "faults": [
+      {
+        "faultCode": "HEARTBEAT_LOST"
+      }
+    ],
+    "ticks": 10
+  },
+  "expected": {
+    "groups": [
+      {
+        "rootCause": "HEARTBEAT_LOST",
+        "mustCallTools": [
+          "reassignJob"
+        ],
+        "mustNotCallTools": [
+          "resetRobot",
+          "sendToCharger"
+        ],
+        "escalate": true
+      }
+    ]
+  }
+}

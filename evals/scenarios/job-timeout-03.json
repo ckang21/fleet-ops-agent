@@ -1,0 +1,29 @@
+{
+  "id": "job-timeout-03",
+  "description": "Job timeout, triaged later",
+  "setup": {
+    "seed": 313,
+    "warmupTicks": 5,
+    "faults": [
+      {
+        "faultCode": "JOB_TIMEOUT"
+      }
+    ],
+    "ticks": 5
+  },
+  "expected": {
+    "groups": [
+      {
+        "rootCause": "JOB_TIMEOUT",
+        "mustCallTools": [
+          "reassignJob"
+        ],
+        "mustNotCallTools": [
+          "setOutOfService",
+          "rerouteAround"
+        ],
+        "escalate": false
+      }
+    ]
+  }
+}

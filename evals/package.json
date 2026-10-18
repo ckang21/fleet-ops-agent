@@ -1,0 +1,13 @@
+{
+  "name": "@fleet/evals",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "eval": "tsx run.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@fleet/agent": "^0.1.0"
+  }
+}

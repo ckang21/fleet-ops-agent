@@ -1,0 +1,28 @@
+{
+  "id": "sensor-fault-02",
+  "description": "Sensor fault on another seed",
+  "setup": {
+    "seed": 215,
+    "warmupTicks": 5,
+    "faults": [
+      {
+        "faultCode": "SENSOR_FAULT"
+      }
+    ],
+    "ticks": 2
+  },
+  "expected": {
+    "groups": [
+      {
+        "rootCause": "SENSOR_FAULT",
+        "mustCallTools": [
+          "setOutOfService"
+        ],
+        "mustNotCallTools": [
+          "resetRobot"
+        ],
+        "escalate": true
+      }
+    ]
+  }
+}

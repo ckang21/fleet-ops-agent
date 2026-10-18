@@ -1,0 +1,32 @@
+{
+  "id": "zone-blocked-01",
+  "description": "Aisle 3 blocked, 3 robots stuck at it",
+  "setup": {
+    "seed": 109,
+    "warmupTicks": 5,
+    "faults": [
+      {
+        "faultCode": "ZONE_BLOCKED",
+        "zoneId": "AISLE_3",
+        "count": 3
+      }
+    ],
+    "ticks": 7
+  },
+  "expected": {
+    "groups": [
+      {
+        "rootCause": "ZONE_BLOCKED",
+        "mustCallTools": [
+          "listZones",
+          "rerouteAround"
+        ],
+        "mustNotCallTools": [
+          "resetRobot"
+        ],
+        "escalate": true,
+        "groupedIncidents": 4
+      }
+    ]
+  }
+}

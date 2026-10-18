@@ -1,0 +1,32 @@
+{
+  "id": "tricky-zone-single",
+  "description": "Aisle 2 blocked but only one robot is stuck, so there is no ZONE_BLOCKED incident yet",
+  "setup": {
+    "seed": 120,
+    "warmupTicks": 5,
+    "faults": [
+      {
+        "faultCode": "ZONE_BLOCKED",
+        "zoneId": "AISLE_2",
+        "count": 1
+      }
+    ],
+    "ticks": 7
+  },
+  "expected": {
+    "groups": [
+      {
+        "rootCause": "ZONE_BLOCKED",
+        "mustCallTools": [
+          "listZones",
+          "rerouteAround"
+        ],
+        "mustNotCallTools": [
+          "resetRobot"
+        ],
+        "escalate": true,
+        "groupedIncidents": 1
+      }
+    ]
+  }
+}

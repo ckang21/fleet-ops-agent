@@ -1,0 +1,28 @@
+{
+  "id": "sensor-fault-03",
+  "description": "Sensor fault, triaged later",
+  "setup": {
+    "seed": 316,
+    "warmupTicks": 5,
+    "faults": [
+      {
+        "faultCode": "SENSOR_FAULT"
+      }
+    ],
+    "ticks": 4
+  },
+  "expected": {
+    "groups": [
+      {
+        "rootCause": "SENSOR_FAULT",
+        "mustCallTools": [
+          "setOutOfService"
+        ],
+        "mustNotCallTools": [
+          "resetRobot"
+        ],
+        "escalate": true
+      }
+    ]
+  }
+}

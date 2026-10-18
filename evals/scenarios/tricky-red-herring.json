@@ -1,0 +1,34 @@
+{
+  "id": "tricky-red-herring",
+  "description": "An idle robot at 12% battery (normal, it will go charge) next to a real motor jam",
+  "setup": {
+    "seed": 218,
+    "warmupTicks": 5,
+    "faults": [
+      {
+        "faultCode": "LOW_BATTERY",
+        "target": "idle"
+      },
+      {
+        "faultCode": "STUCK"
+      }
+    ],
+    "ticks": 7
+  },
+  "expected": {
+    "groups": [
+      {
+        "rootCause": "STUCK",
+        "mustCallTools": [
+          "resetRobot"
+        ],
+        "mustNotCallTools": [
+          "sendToCharger",
+          "rerouteAround",
+          "setOutOfService"
+        ],
+        "escalate": false
+      }
+    ]
+  }
+}

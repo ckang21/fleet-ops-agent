@@ -1,0 +1,11 @@
+# One image for the TypeScript workspaces (agent, evals, ui). docker-compose picks the command.
+FROM node:24-slim
+WORKDIR /app
+COPY package.json package-lock.json ./
+COPY agent/package.json agent/
+COPY evals/package.json evals/
+COPY ui/package.json ui/
+RUN npm ci
+COPY agent agent
+COPY evals evals
+COPY ui ui

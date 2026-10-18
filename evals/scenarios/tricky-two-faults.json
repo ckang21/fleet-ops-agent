@@ -1,0 +1,43 @@
+{
+  "id": "tricky-two-faults",
+  "description": "Two unrelated faults at once: a sensor fault and a low battery",
+  "setup": {
+    "seed": 117,
+    "warmupTicks": 5,
+    "faults": [
+      {
+        "faultCode": "SENSOR_FAULT"
+      },
+      {
+        "faultCode": "LOW_BATTERY"
+      }
+    ],
+    "ticks": 2
+  },
+  "expected": {
+    "groups": [
+      {
+        "rootCause": "SENSOR_FAULT",
+        "mustCallTools": [
+          "setOutOfService"
+        ],
+        "mustNotCallTools": [
+          "resetRobot"
+        ],
+        "escalate": true
+      },
+      {
+        "rootCause": "LOW_BATTERY",
+        "mustCallTools": [
+          "sendToCharger"
+        ],
+        "mustNotCallTools": [
+          "resetRobot",
+          "setOutOfService",
+          "rerouteAround"
+        ],
+        "escalate": false
+      }
+    ]
+  }
+}

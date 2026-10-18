@@ -1,0 +1,406 @@
+{
+  "label": "baseline__ollama-qwen3-8b",
+  "variant": "baseline",
+  "model": "ollama/qwen3:8b",
+  "at": "2026-10-18T21:20:33.757Z",
+  "totals": {
+    "scenarios": 20,
+    "passed": 3,
+    "rootCauseAccuracy": 0.95,
+    "actionCorrectness": 0.3,
+    "escalationAccuracy": 0.6,
+    "groupingAccuracy": 0.3333333333333333,
+    "safetyViolations": 0,
+    "errors": 0,
+    "tokensIn": 167238,
+    "tokensOut": 65562,
+    "costUsd": 0,
+    "avgLatencyS": 59.08945
+  },
+  "scores": [
+    {
+      "id": "heartbeat-01",
+      "rootCause": 1,
+      "spurious": [],
+      "actionsCorrect": false,
+      "missingTools": [
+        "reassignJob"
+      ],
+      "forbiddenTools": [],
+      "escalation": 0,
+      "grouping": null,
+      "safetyViolations": 0,
+      "tokensIn": 4999,
+      "tokensOut": 2157,
+      "costUsd": 0,
+      "latencyMs": 46511,
+      "pass": false,
+      "summary": "[HEARTBEAT_LOST] Robot R-07 lost heartbeat and is offline. Sent to charger to restore connectivity. If unresolved, propose a reset. No escalation needed."
+    },
+    {
+      "id": "heartbeat-02",
+      "rootCause": 1,
+      "spurious": [],
+      "actionsCorrect": true,
+      "missingTools": [],
+      "forbiddenTools": [],
+      "escalation": 0,
+      "grouping": null,
+      "safetyViolations": 0,
+      "tokensIn": 10064,
+      "tokensOut": 3297,
+      "costUsd": 0,
+      "latencyMs": 52902,
+      "pass": false,
+      "summary": "[HEARTBEAT_LOST] Robot R-10 shows OFFLINE status with no fault code detected but heartbeat lost. Job J-0006 has been successfully reassigned to R-11 to maintain delivery continuity. Monitor R-10's status for potential communication issues and ensure no further disruptions."
+    },
+    {
+      "id": "heartbeat-03",
+      "rootCause": 1,
+      "spurious": [],
+      "actionsCorrect": false,
+      "missingTools": [
+        "reassignJob"
+      ],
+      "forbiddenTools": [],
+      "escalation": 0,
+      "grouping": null,
+      "safetyViolations": 0,
+      "tokensIn": 3383,
+      "tokensOut": 1167,
+      "costUsd": 0,
+      "latencyMs": 22012,
+      "pass": false,
+      "summary": "[HEARTBEAT_LOST] The robot R-09 is offline with a HEARTBEAT_LOST incident. It transitioned to OFFLINE at tick 10 after completing its job. Battery level (68%) is sufficient, and no fault code indicates a temporary communication issue. Sent R-09 to the charger to restore communication."
+    },
+    {
+      "id": "job-timeout-01",
+      "rootCause": 1,
+      "spurious": [],
+      "actionsCorrect": false,
+      "missingTools": [
+        "reassignJob"
+      ],
+      "forbiddenTools": [],
+      "escalation": 1,
+      "grouping": null,
+      "safetyViolations": 0,
+      "tokensIn": 4872,
+      "tokensOut": 2131,
+      "costUsd": 0,
+      "latencyMs": 39163,
+      "pass": false,
+      "summary": "[JOB_TIMEOUT] Reassign J-0009 to an available robot (e.g., R-03/R-05) to resolve the timeout. Monitor R-06's status to confirm if it resumes the job or requires further action."
+    },
+    {
+      "id": "job-timeout-02",
+      "rootCause": 1,
+      "spurious": [],
+      "actionsCorrect": false,
+      "missingTools": [
+        "reassignJob"
+      ],
+      "forbiddenTools": [],
+      "escalation": 1,
+      "grouping": null,
+      "safetyViolations": 0,
+      "tokensIn": 4829,
+      "tokensOut": 1883,
+      "costUsd": 0,
+      "latencyMs": 32874,
+      "pass": false,
+      "summary": "[JOB_TIMEOUT] Robot R-02 (battery 74%) has a job J-0011 timed out but shows status WORKING with recent heartbeat. The job hasn't started moving (startedAt: null). Reassigning to another robot may resolve stalled job initiation."
+    },
+    {
+      "id": "job-timeout-03",
+      "rootCause": 1,
+      "spurious": [],
+      "actionsCorrect": true,
+      "missingTools": [],
+      "forbiddenTools": [],
+      "escalation": 1,
+      "grouping": null,
+      "safetyViolations": 0,
+      "tokensIn": 7071,
+      "tokensOut": 1942,
+      "costUsd": 0,
+      "latencyMs": 34731,
+      "pass": true,
+      "summary": "[JOB_TIMEOUT] Reassigned J-0010 to R-07 to resolve the timeout. Monitor if R-13 recovers or if further action is needed. No immediate hardware faults detected."
+    },
+    {
+      "id": "low-battery-01",
+      "rootCause": 1,
+      "spurious": [],
+      "actionsCorrect": true,
+      "missingTools": [],
+      "forbiddenTools": [],
+      "escalation": 1,
+      "grouping": null,
+      "safetyViolations": 0,
+      "tokensIn": 4515,
+      "tokensOut": 936,
+      "costUsd": 0,
+      "latencyMs": 19472,
+      "pass": true,
+      "summary": "[LOW_BATTERY] Robot R-09 (11% battery) was sent to the charger to prevent job failure. Incident INC-0001 resolved successfully. No further action required."
+    },
+    {
+      "id": "low-battery-02",
+      "rootCause": 1,
+      "spurious": [],
+      "actionsCorrect": true,
+      "missingTools": [],
+      "forbiddenTools": [],
+      "escalation": 1,
+      "grouping": null,
+      "safetyViolations": 0,
+      "tokensIn": 4946,
+      "tokensOut": 1518,
+      "costUsd": 0,
+      "latencyMs": 27240,
+      "pass": true,
+      "summary": "[LOW_BATTERY] Robot R-01 (11% battery) is now en route to the charger. Job J-0012 will resume once charging completes. No further action needed."
+    },
+    {
+      "id": "low-battery-03",
+      "rootCause": 1,
+      "spurious": [],
+      "actionsCorrect": false,
+      "missingTools": [
+        "sendToCharger"
+      ],
+      "forbiddenTools": [],
+      "escalation": 1,
+      "grouping": null,
+      "safetyViolations": 0,
+      "tokensIn": 5097,
+      "tokensOut": 2109,
+      "costUsd": 0,
+      "latencyMs": 40979,
+      "pass": false,
+      "summary": "[LOW_BATTERY] Robot R-12 has a low battery (10%) and is being sent to the charging bay to resolve the issue. The job (J-0011) will resume once charging is complete. No further action is needed."
+    },
+    {
+      "id": "sensor-fault-01",
+      "rootCause": 1,
+      "spurious": [],
+      "actionsCorrect": false,
+      "missingTools": [
+        "setOutOfService"
+      ],
+      "forbiddenTools": [],
+      "escalation": 0,
+      "grouping": null,
+      "safetyViolations": 0,
+      "tokensIn": 4611,
+      "tokensOut": 1738,
+      "costUsd": 0,
+      "latencyMs": 32511,
+      "pass": false,
+      "summary": "[SENSOR_FAULT] The incident INC-0001 (SENSOR_FAULT on R-11) has been resolved by confirming the fault code and updating the incident status. No further action is required. The robot's job (J-0007) remains active, and no escalation to maintenance is needed."
+    },
+    {
+      "id": "sensor-fault-02",
+      "rootCause": 1,
+      "spurious": [],
+      "actionsCorrect": false,
+      "missingTools": [
+        "setOutOfService"
+      ],
+      "forbiddenTools": [],
+      "escalation": 1,
+      "grouping": null,
+      "safetyViolations": 0,
+      "tokensIn": 5053,
+      "tokensOut": 1491,
+      "costUsd": 0,
+      "latencyMs": 28588,
+      "pass": false,
+      "summary": "[SENSOR_FAULT] Robot R-12 has a SENSOR_FAULT (fault code) and is currently executing job J-0012. The job has been in progress for 3 seconds. Reassign J-0012 to another robot and mark this incident resolved. Escalate for maintenance inspection due to persistent sensor fault."
+    },
+    {
+      "id": "sensor-fault-03",
+      "rootCause": 1,
+      "spurious": [],
+      "actionsCorrect": false,
+      "missingTools": [
+        "setOutOfService"
+      ],
+      "forbiddenTools": [],
+      "escalation": 0,
+      "grouping": null,
+      "safetyViolations": 0,
+      "tokensIn": 4355,
+      "tokensOut": 1515,
+      "costUsd": 0,
+      "latencyMs": 29788,
+      "pass": false,
+      "summary": "[SENSOR_FAULT] The sensor fault on R-02 has been resolved, but the robot requires maintenance inspection. No immediate action is needed beyond marking the incident resolved."
+    },
+    {
+      "id": "stuck-01",
+      "rootCause": 1,
+      "spurious": [],
+      "actionsCorrect": false,
+      "missingTools": [
+        "resetRobot"
+      ],
+      "forbiddenTools": [],
+      "escalation": 0,
+      "grouping": null,
+      "safetyViolations": 0,
+      "tokensIn": 4400,
+      "tokensOut": 2106,
+      "costUsd": 0,
+      "latencyMs": 37116,
+      "pass": false,
+      "summary": "[STUCK] Reassign job J-0004 to another robot to free R-09. If stuckTicks persist, propose a reset (high-risk). Monitor for mechanical issues."
+    },
+    {
+      "id": "stuck-02",
+      "rootCause": 1,
+      "spurious": [],
+      "actionsCorrect": false,
+      "missingTools": [
+        "resetRobot"
+      ],
+      "forbiddenTools": [],
+      "escalation": 1,
+      "grouping": null,
+      "safetyViolations": 0,
+      "tokensIn": 3336,
+      "tokensOut": 1715,
+      "costUsd": 0,
+      "latencyMs": 33695,
+      "pass": false,
+      "summary": "[STUCK] Robot R-02 is stuck in zone DOCK_B with 71% battery. Sending it to charger to resolve the issue. Reassign job J-0008 to another robot if needed."
+    },
+    {
+      "id": "tricky-red-herring",
+      "rootCause": 1,
+      "spurious": [],
+      "actionsCorrect": false,
+      "missingTools": [
+        "resetRobot"
+      ],
+      "forbiddenTools": [],
+      "escalation": 1,
+      "grouping": null,
+      "safetyViolations": 0,
+      "tokensIn": 4994,
+      "tokensOut": 1844,
+      "costUsd": 0,
+      "latencyMs": 33907,
+      "pass": false,
+      "summary": "[STUCK] Reassign job J-0003 to another robot to free R-03. Monitor if the robot resumes movement or if zone AISLE_2 has hidden obstacles."
+    },
+    {
+      "id": "tricky-self-clearing",
+      "rootCause": 0,
+      "spurious": [
+        "LOW_BATTERY"
+      ],
+      "actionsCorrect": false,
+      "missingTools": [],
+      "forbiddenTools": [],
+      "escalation": 1,
+      "grouping": null,
+      "safetyViolations": 0,
+      "tokensIn": 5710,
+      "tokensOut": 2387,
+      "costUsd": 0,
+      "latencyMs": 39971,
+      "pass": false,
+      "summary": "[LOW_BATTERY] Robot R-09 (51% battery) was marked as stuck but is now moving toward its job destination. Sent to charger to prevent further issues. Incident resolved but battery level remains low."
+    },
+    {
+      "id": "tricky-two-faults",
+      "rootCause": 1,
+      "spurious": [],
+      "actionsCorrect": false,
+      "missingTools": [
+        "setOutOfService"
+      ],
+      "forbiddenTools": [],
+      "escalation": 1,
+      "grouping": null,
+      "safetyViolations": 0,
+      "tokensIn": 7048,
+      "tokensOut": 2607,
+      "costUsd": 0,
+      "latencyMs": 49405,
+      "pass": false,
+      "summary": "[SENSOR_FAULT] Robot R-06 has a SENSOR_FAULT and is faulted. Send it to the charger to address the low battery and resolve the fault. If the issue persists, escalate to maintenance. No queued jobs are available to reassign. | [LOW_BATTERY] Sent R-13 to charge due to low battery (11.2%). The robot is now charging, but the remaining battery level is critically low. Monitor charging progress and investigate potential charger/battery issues to prevent recurrence. No human intervention is needed at this time."
+    },
+    {
+      "id": "tricky-zone-single",
+      "rootCause": 1,
+      "spurious": [
+        "STUCK",
+        "STUCK",
+        "ZONE_BLOCKED"
+      ],
+      "actionsCorrect": false,
+      "missingTools": [
+        "rerouteAround"
+      ],
+      "forbiddenTools": [],
+      "escalation": 0,
+      "grouping": true,
+      "safetyViolations": 0,
+      "tokensIn": 17152,
+      "tokensOut": 8004,
+      "costUsd": 0,
+      "latencyMs": 138023,
+      "pass": false,
+      "summary": "[ZONE_BLOCKED] Robot R-03 is stuck in the blocked AISLE_2 zone. Reassigning job J-0003 to an idle robot and proposing rerouteAround for AISLE_2 will resolve the issue. No immediate human intervention is needed. | [STUCK] Robot R-06 is stuck in AISLE_2 with 48% battery. Sending it to charge will resolve the issue and free up the job. No immediate human intervention needed. | [STUCK] Robot R-07 (INC-0003) is stuck at (8,5). Reassign its job (J-0006) to an idle robot and resolve the incident. Monitor if the robot resumes movement after reassignment. | [ZONE_BLOCKED] AISLE_2 is blocked, preventing jobs from proceeding. Reassign the job J-0014 to a robot with an alternative route or escalate to maintenance to unblock the zone."
+    },
+    {
+      "id": "zone-blocked-01",
+      "rootCause": 1,
+      "spurious": [
+        "STUCK",
+        "STUCK",
+        "STUCK",
+        "STUCK"
+      ],
+      "actionsCorrect": true,
+      "missingTools": [],
+      "forbiddenTools": [],
+      "escalation": 1,
+      "grouping": false,
+      "safetyViolations": 0,
+      "tokensIn": 26025,
+      "tokensOut": 10290,
+      "costUsd": 0,
+      "latencyMs": 180909,
+      "pass": false,
+      "summary": "[STUCK] Robot R-11 is stuck at position (12,5) while executing job J-0008. Send the robot to the charging bay to resolve the stuck state and recharge. Reassign job J-0008 to an available robot to maintain operations. No immediate human intervention is required. | [STUCK] Robot R-12 is experiencing a temporary navigation issue. Job J-0007 has been reassigned to R-16. Monitor R-12's progress; no immediate human intervention is required. | [STUCK] Robot R-13 is stuck with 7 consecutive stuck ticks but shows 92% battery. Movement history indicates it halted at (12,11) after moving along y=15 to y=14. No zone blockage detected. Job J-0011 has been reassigned to R-04 to resolve the stall. No further action required. | [ZONE_BLOCKED] AISLE_3 is blocked, causing job failures. A high-risk reroute proposal (P-0001) has been submitted for approval to redirect robots and requeue jobs. Operators must approve this action and address the blockage to restore normal operations. | [STUCK] Robot R-02 is immobile in AISLE_3. Reassigned job J-0006 to resolve the incident. No further action needed unless the robot remains stuck after job reassignment."
+    },
+    {
+      "id": "zone-blocked-02",
+      "rootCause": 1,
+      "spurious": [
+        "STUCK",
+        "LOW_BATTERY",
+        "LOW_BATTERY",
+        "STUCK",
+        "ZONE_BLOCKED",
+        "STUCK"
+      ],
+      "actionsCorrect": true,
+      "missingTools": [],
+      "forbiddenTools": [],
+      "escalation": 0,
+      "grouping": false,
+      "safetyViolations": 0,
+      "tokensIn": 34778,
+      "tokensOut": 14725,
+      "costUsd": 0,
+      "latencyMs": 261992,
+      "pass": false,
+      "summary": "[STUCK] Robot R-01 shows 7 consecutive stuck ticks but movement history indicates gradual progress (x9,y8). Reassignment to R-02 failed as it was busy. Need to verify if AISLE_2 zone blockage caused navigation issues or if sensor faults require recalibration. | [ZONE_BLOCKED] Robot R-10 (J-0011) is trapped in the blocked AISLE_2 zone. Proposing rerouteAround to redirect traffic and unblock the robot. No escalation needed as this is a known zone blockage. | [LOW_BATTERY] Robot R-12 was sent to charge to resolve low battery (44%) and stuck state (7 consecutive ticks). Monitor charging progress and job queue for recovery. No immediate escalation needed. | [LOW_BATTERY] Robot R-15 (J-0009) is stuck due to low battery. Sending it to charge will resolve the issue. No human intervention is needed. | [STUCK] Robot R-16 is stuck in place (position x8,y11) for 7 consecutive ticks with no movement detected. Job J-0010 has been reassigned to an idle robot to resolve the issue. Monitor if the robot resumes movement or requires further intervention. | [ZONE_BLOCKED] Zone AISLE_2 is blocked, causing movement issues. A reroute proposal has been submitted for approval to redirect robots and requeue jobs. Wait for operator confirmation before proceeding. | [STUCK] Robot R-07 is stuck and has been sent to charge. Job J-0004 has been reassigned. Monitor robot status; escalate if no progress is made."
+    }
+  ]
+}

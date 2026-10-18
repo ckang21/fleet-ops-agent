@@ -1,0 +1,36 @@
+# docker compose up  ->  UI on http://localhost:5173
+# The model runs in Ollama on your machine (ollama pull qwen3:8b), not in a container,
+# so it can use your GPU. Set LLM_PROVIDER=mock in .env to run without any model.
+services:
+  fleet-sim:
+    build: ./fleet-sim
+    ports: ["8080:8080"]
+    environment:
+      SIM_SEED: ${SIM_SEED:-1}
+      SIM_TICK_MS: ${SIM_TICK_MS:-1000}
+
+  agent:
+    build:
+      context: .
+      dockerfile: Dockerfile.node
+    command: ["npx", "tsx", "agent/src/server.ts"]
+    ports: ["4000:4000"]
+    env_file: [{ path: .env, required: false }]
+    environment:
+      FLEET_GRAPHQL_URL: http://fleet-sim:8080/query
+      OLLAMA_URL: ${OLLAMA_URL:-http://host.docker.internal:11434/v1}
+      LOG_DIR: /app/logs
+    extra_hosts: ["host.docker.internal:host-gateway"]
+    volumes: ["./logs:/app/logs"]
+    depends_on: [fleet-sim]
+
+  ui:
+    build:
+      context: .
+      dockerfile: Dockerfile.node
+    command: ["npm", "run", "dev", "-w", "ui"]
+    ports: ["5173:5173"]
+    environment:
+      AGENT_URL: http://agent:4000
+      FLEET_URL: http://fleet-sim:8080
+    depends_on: [agent]

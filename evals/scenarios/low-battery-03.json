@@ -1,0 +1,30 @@
+{
+  "id": "low-battery-03",
+  "description": "Low battery detected a few ticks late",
+  "setup": {
+    "seed": 303,
+    "warmupTicks": 5,
+    "faults": [
+      {
+        "faultCode": "LOW_BATTERY"
+      }
+    ],
+    "ticks": 3
+  },
+  "expected": {
+    "groups": [
+      {
+        "rootCause": "LOW_BATTERY",
+        "mustCallTools": [
+          "sendToCharger"
+        ],
+        "mustNotCallTools": [
+          "resetRobot",
+          "setOutOfService",
+          "rerouteAround"
+        ],
+        "escalate": false
+      }
+    ]
+  }
+}

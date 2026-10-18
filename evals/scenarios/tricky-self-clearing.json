@@ -1,0 +1,19 @@
+{
+  "id": "tricky-self-clearing",
+  "description": "A motor jam that clears on its own before triage runs",
+  "setup": {
+    "seed": 319,
+    "warmupTicks": 5,
+    "faults": [
+      {
+        "faultCode": "STUCK",
+        "durationTicks": 8
+      }
+    ],
+    "ticks": 7,
+    "extraTicks": 6
+  },
+  "expected": {
+    "groups": []
+  }
+}

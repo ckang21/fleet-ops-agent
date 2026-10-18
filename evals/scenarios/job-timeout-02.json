@@ -1,0 +1,29 @@
+{
+  "id": "job-timeout-02",
+  "description": "Job timeout on another seed",
+  "setup": {
+    "seed": 212,
+    "warmupTicks": 5,
+    "faults": [
+      {
+        "faultCode": "JOB_TIMEOUT"
+      }
+    ],
+    "ticks": 2
+  },
+  "expected": {
+    "groups": [
+      {
+        "rootCause": "JOB_TIMEOUT",
+        "mustCallTools": [
+          "reassignJob"
+        ],
+        "mustNotCallTools": [
+          "setOutOfService",
+          "rerouteAround"
+        ],
+        "escalate": false
+      }
+    ]
+  }
+}
