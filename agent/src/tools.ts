@@ -104,6 +104,13 @@ function historyView(h: Snapshot[], variant: Variant) {
 
 const reason = z.string().describe('Why this action is needed, citing the evidence')
 
+// v2 round 2: the first wording ("needs operator approval") made the model describe proposals in text
+// instead of calling the tool. Spelling out that the call itself is the proposal fixed it.
+const highRisk = (variant: Variant, what: string) =>
+  variant === 'v2'
+    ? `HIGH RISK. Calling this tool is safe: it creates a proposal the operator approves, and nothing runs until then. Call it to propose. ${what}`
+    : `HIGH RISK, needs operator approval. ${what}`
+
 export function makeTools(ctx: ToolContext) {
   const { fleet } = ctx
   const v2 = ctx.variant === 'v2'
@@ -192,19 +199,19 @@ export function makeTools(ctx: ToolContext) {
     }),
     resetRobot: createTool({
       id: 'resetRobot',
-      description: 'HIGH RISK, needs operator approval. Power-cycle a robot drive. Fixes motor jams; does not fix hardware sensor faults or offline robots.',
+      description: highRisk(ctx.variant, 'Power-cycle a robot drive. Fixes motor jams; does not fix hardware sensor faults or offline robots.'),
       inputSchema: z.object({ robotId: z.string(), reason }),
       execute: async ({ robotId, reason }) => act(ctx, 'resetRobot', { robotId }, reason),
     }),
     setOutOfService: createTool({
       id: 'setOutOfService',
-      description: 'HIGH RISK, needs operator approval. Take a robot out of service for maintenance. Its job goes back to the queue.',
+      description: highRisk(ctx.variant, 'Take a robot out of service for maintenance. Its job goes back to the queue.'),
       inputSchema: z.object({ robotId: z.string(), reason }),
       execute: async ({ robotId, reason }) => act(ctx, 'setOutOfService', { robotId, reason }, reason),
     }),
     rerouteAround: createTool({
       id: 'rerouteAround',
-      description: 'HIGH RISK, needs operator approval. Make every robot route around a zone and requeue jobs that start or end in it.',
+      description: highRisk(ctx.variant, 'Make every robot route around a zone and requeue jobs that start or end in it.'),
       inputSchema: z.object({ zoneId: z.string(), reason }),
       execute: async ({ zoneId, reason }) => act(ctx, 'rerouteAround', { zoneId }, reason),
     }),

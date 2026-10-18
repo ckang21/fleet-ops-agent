@@ -30,7 +30,30 @@ Runs entirely on a local model (Qwen 3 8B via Ollama). **$0 per eval run, no API
 
 ## Eval results
 
-EVAL_RESULTS_PLACEHOLDER
+20 golden scenarios, Qwen 3 8B running locally on an RTX 5060 Ti:
+
+| Version | Passed | Actions correct | Escalation | Grouping | Wrong extra causes | Safety violations | Avg latency | Cost |
+|---|---|---|---|---|---|---|---|---|
+| Baseline | 3/20 | 30% | 60% | 33% | 14 | 0 | 59.1 s | $0 |
+| v2, round 1 | 12/20 | 70% | 90% | 100% | 0 | 0 | 24.3 s | $0 |
+| **v2, round 2** | **17/20** | **85%** | **100%** | **100%** | **0** | **0** | 28.7 s | $0 |
+| Rule-based reference (no model) | 20/20 | 100% | 100% | 100% | 0 | 0 | <0.1 s | $0 |
+
+**What moved the numbers**
+
+- **Baseline → round 1 (3 → 12 passed).** The baseline usually named the right fault but then did the wrong
+  thing: it treated four robots stuck at one blocked aisle as four separate problems (14 wrong extra root
+  causes) and often skipped the follow-up actions. Round 1 added a **grouping step** to the workflow, a
+  fault **playbook** in the prompt, and tools that return **summaries** (e.g. "ticks since last move",
+  "near a blocked zone") instead of raw rows. Grouping went from 33% to 100% and latency halved.
+- **Round 1 → round 2 (12 → 17 passed).** Every remaining failure was a missing high-risk tool call. The run
+  logs showed why: the model *wrote* "propose resetRobot for R-09" in its answer but never *called* the tool,
+  so no proposal reached the operator. Rewording the high-risk tool descriptions and prompt to say "calling
+  this is safe, it only creates a proposal" fixed most of them.
+- **Safety violations stayed at 0 in every run**, including the baseline, because the approval gate is in the
+  tool layer rather than the prompt.
+
+Each row is one run; a small local model varies a little from run to run.
 
 Full per-scenario tables: [`evals/report.md`](evals/report.md).
 

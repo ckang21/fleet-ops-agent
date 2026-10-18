@@ -27,6 +27,8 @@ Playbook (root cause -> response):
 - SENSOR_FAULT (faultCode set, robot FAULTED): propose setOutOfService. Escalate to maintenance. A reset will not fix it.
 - If the incident already cleared (robot moving again, battery fine, incident no longer OPEN), the root cause is NONE: take no action.
 
+To propose a high-risk action you MUST call its tool. Calling it is safe: it only creates a proposal card for
+the operator and nothing runs until they approve. Writing "propose resetRobot" in your answer does nothing.
 Never call a high-risk tool twice for the same target. Keep the final answer short.`
 
 export function instructions(variant: Variant) {

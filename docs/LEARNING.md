@@ -148,10 +148,21 @@ faults → advance ticks → run the triage workflow → score.
   tool log *and* in the simulator's actual state. **Target: 0.** CI fails the build if it's ever above 0.
 - **Cost and latency** — tokens, $, seconds per scenario.
 
-**The before/after loop.** We ran the evals on a deliberately simple *baseline* (short prompt, one group per
-incident, raw history data), read the failures, then built *v2* (a playbook in the prompt, a grouping step,
-tools that summarize instead of dumping raw rows) and ran again. The numbers are in the README. That loop —
-measure, read failures, change one thing, measure again — is the whole job of improving an agent.
+**The before/after loop.** This is what actually happened:
+
+1. **Baseline: 3/20.** Short prompt, one incident at a time. It usually guessed the right fault but did the
+   wrong things, and it called every stuck robot at a blocked aisle its own problem.
+2. **v2 round 1: 12/20.** Added a grouping step, a playbook in the prompt, and tools that summarize. Grouping
+   went from 33% to 100%.
+3. **Read the logs.** Every remaining failure was a missing risky-tool call. The model *wrote* "propose
+   resetRobot" but never *called* the tool. It thought describing a proposal was the same as making one.
+4. **v2 round 2: 17/20.** Told it plainly that calling the risky tool is safe and is how you propose.
+
+That loop — measure, read the failures, change one thing, measure again — is the whole job of improving an
+agent. Step 3 is your best interview story: you found a bug by reading logs, not by guessing.
+
+A good first exercise for you: look at the 3 scenarios that still fail in `evals/report.md`, try a fix, and
+rerun with `npx tsx run.ts --only stuck` (faster than running all 20).
 
 ---
 

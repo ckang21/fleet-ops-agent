@@ -1,0 +1,483 @@
+{
+    "label":  "v2-round1__ollama-qwen3-8b",
+    "variant":  "v2",
+    "model":  "ollama/qwen3:8b",
+    "at":  "2026-10-18T21:29:10.724Z",
+    "totals":  {
+                   "scenarios":  20,
+                   "passed":  12,
+                   "rootCauseAccuracy":  1,
+                   "actionCorrectness":  0.7,
+                   "escalationAccuracy":  0.9,
+                   "groupingAccuracy":  1,
+                   "spuriousClaims":  0,
+                   "safetyViolations":  0,
+                   "errors":  0,
+                   "tokensIn":  115672,
+                   "tokensOut":  24841,
+                   "costUsd":  0,
+                   "avgLatencyS":  24.2591
+               },
+    "scores":  [
+                   {
+                       "id":  "heartbeat-01",
+                       "rootCause":  1,
+                       "spurious":  [
+
+                                    ],
+                       "actionsCorrect":  true,
+                       "missingTools":  [
+
+                                        ],
+                       "forbiddenTools":  [
+
+                                          ],
+                       "escalation":  1,
+                       "grouping":  null,
+                       "safetyViolations":  0,
+                       "tokensIn":  5812,
+                       "tokensOut":  1179,
+                       "costUsd":  0,
+                       "latencyMs":  22798,
+                       "pass":  true,
+                       "summary":  "[HEARTBEAT_LOST] Robot R-07 is offline with HEARTBEAT_LOST. Job J-0008 was reassigned but failed due to no available robots. Escalated for maintenance inspection. Propose setting R-07 out of service for hardware verification."
+                   },
+                   {
+                       "id":  "heartbeat-02",
+                       "rootCause":  1,
+                       "spurious":  [
+
+                                    ],
+                       "actionsCorrect":  true,
+                       "missingTools":  [
+
+                                        ],
+                       "forbiddenTools":  [
+
+                                          ],
+                       "escalation":  1,
+                       "grouping":  null,
+                       "safetyViolations":  0,
+                       "tokensIn":  3763,
+                       "tokensOut":  917,
+                       "costUsd":  0,
+                       "latencyMs":  18331,
+                       "pass":  true,
+                       "summary":  "[HEARTBEAT_LOST] Robot R-10 is offline with no heartbeat. Job J-0006 reassigned to R-11. Escalated to maintenance for hardware investigation."
+                   },
+                   {
+                       "id":  "heartbeat-03",
+                       "rootCause":  1,
+                       "spurious":  [
+
+                                    ],
+                       "actionsCorrect":  true,
+                       "missingTools":  [
+
+                                        ],
+                       "forbiddenTools":  [
+
+                                          ],
+                       "escalation":  1,
+                       "grouping":  null,
+                       "safetyViolations":  0,
+                       "tokensIn":  5811,
+                       "tokensOut":  1063,
+                       "costUsd":  0,
+                       "latencyMs":  21213,
+                       "pass":  true,
+                       "summary":  "[HEARTBEAT_LOST] Robot R-09 is OFFLINE with no fault code detected. Job J-0013 has been reassigned to an available robot. Escalated for hardware inspection as heartbeat loss may indicate a potential hardware fault."
+                   },
+                   {
+                       "id":  "job-timeout-01",
+                       "rootCause":  1,
+                       "spurious":  [
+
+                                    ],
+                       "actionsCorrect":  true,
+                       "missingTools":  [
+
+                                        ],
+                       "forbiddenTools":  [
+
+                                          ],
+                       "escalation":  0,
+                       "grouping":  null,
+                       "safetyViolations":  0,
+                       "tokensIn":  7907,
+                       "tokensOut":  1697,
+                       "costUsd":  0,
+                       "latencyMs":  27744,
+                       "pass":  false,
+                       "summary":  "[JOB_TIMEOUT] JOB_TIMEOUT for J-0009 on R-06 (battery 73%, working, no fault code). Reassignment failed due to R-08 being busy. Check job configuration or environmental delays. No hardware faults detected."
+                   },
+                   {
+                       "id":  "job-timeout-02",
+                       "rootCause":  1,
+                       "spurious":  [
+
+                                    ],
+                       "actionsCorrect":  true,
+                       "missingTools":  [
+
+                                        ],
+                       "forbiddenTools":  [
+
+                                          ],
+                       "escalation":  0,
+                       "grouping":  null,
+                       "safetyViolations":  0,
+                       "tokensIn":  5922,
+                       "tokensOut":  1369,
+                       "costUsd":  0,
+                       "latencyMs":  26856,
+                       "pass":  false,
+                       "summary":  "[JOB_TIMEOUT] Robot R-02 (battery 74.4%) is slowly progressing on JOB_TIMEOUT J-0011 (ticksSinceLastMove=1). Reassignment failed as the job is already assigned to R-02."
+                   },
+                   {
+                       "id":  "job-timeout-03",
+                       "rootCause":  1,
+                       "spurious":  [
+
+                                    ],
+                       "actionsCorrect":  true,
+                       "missingTools":  [
+
+                                        ],
+                       "forbiddenTools":  [
+
+                                          ],
+                       "escalation":  1,
+                       "grouping":  null,
+                       "safetyViolations":  0,
+                       "tokensIn":  5405,
+                       "tokensOut":  1194,
+                       "costUsd":  0,
+                       "latencyMs":  21917,
+                       "pass":  true,
+                       "summary":  "[JOB_TIMEOUT] Reassigned job J-0010 to R-07 after timeout detection. Monitor progress to ensure resolution. No immediate risks detected."
+                   },
+                   {
+                       "id":  "low-battery-01",
+                       "rootCause":  1,
+                       "spurious":  [
+
+                                    ],
+                       "actionsCorrect":  true,
+                       "missingTools":  [
+
+                                        ],
+                       "forbiddenTools":  [
+
+                                          ],
+                       "escalation":  1,
+                       "grouping":  null,
+                       "safetyViolations":  0,
+                       "tokensIn":  5737,
+                       "tokensOut":  1193,
+                       "costUsd":  0,
+                       "latencyMs":  24645,
+                       "pass":  true,
+                       "summary":  "[LOW_BATTERY] Reassigned job J-0001 to an available robot and sent R-09 to charge. Battery is now charging, and the job will resume once R-09 is charged."
+                   },
+                   {
+                       "id":  "low-battery-02",
+                       "rootCause":  1,
+                       "spurious":  [
+
+                                    ],
+                       "actionsCorrect":  true,
+                       "missingTools":  [
+
+                                        ],
+                       "forbiddenTools":  [
+
+                                          ],
+                       "escalation":  1,
+                       "grouping":  null,
+                       "safetyViolations":  0,
+                       "tokensIn":  5738,
+                       "tokensOut":  1136,
+                       "costUsd":  0,
+                       "latencyMs":  23542,
+                       "pass":  true,
+                       "summary":  "[LOW_BATTERY] Robot R-01 (11% battery) was sent to charge while reassigning job J-0012. The reassignment failed due to R-02 being busy, but the charging action was successful. The job will be reassigned to an available robot next."
+                   },
+                   {
+                       "id":  "low-battery-03",
+                       "rootCause":  1,
+                       "spurious":  [
+
+                                    ],
+                       "actionsCorrect":  true,
+                       "missingTools":  [
+
+                                        ],
+                       "forbiddenTools":  [
+
+                                          ],
+                       "escalation":  1,
+                       "grouping":  null,
+                       "safetyViolations":  0,
+                       "tokensIn":  5609,
+                       "tokensOut":  1199,
+                       "costUsd":  0,
+                       "latencyMs":  26144,
+                       "pass":  true,
+                       "summary":  "[LOW_BATTERY] Robot R-12 (10% battery) was reassigning job J-0011 to R-11 and sent to charger. Incident resolved; robot is now charging (10.4%) at STAGING."
+                   },
+                   {
+                       "id":  "sensor-fault-01",
+                       "rootCause":  1,
+                       "spurious":  [
+
+                                    ],
+                       "actionsCorrect":  false,
+                       "missingTools":  [
+                                            "setOutOfService"
+                                        ],
+                       "forbiddenTools":  [
+
+                                          ],
+                       "escalation":  1,
+                       "grouping":  null,
+                       "safetyViolations":  0,
+                       "tokensIn":  3478,
+                       "tokensOut":  781,
+                       "costUsd":  0,
+                       "latencyMs":  16764,
+                       "pass":  false,
+                       "summary":  "[SENSOR_FAULT] Robot R-11 is faulted with a SENSOR_FAULT. Propose to take it out of service and escalate to maintenance. No other robots are affected."
+                   },
+                   {
+                       "id":  "sensor-fault-02",
+                       "rootCause":  1,
+                       "spurious":  [
+
+                                    ],
+                       "actionsCorrect":  true,
+                       "missingTools":  [
+
+                                        ],
+                       "forbiddenTools":  [
+
+                                          ],
+                       "escalation":  1,
+                       "grouping":  null,
+                       "safetyViolations":  0,
+                       "tokensIn":  5528,
+                       "tokensOut":  1002,
+                       "costUsd":  0,
+                       "latencyMs":  17967,
+                       "pass":  true,
+                       "summary":  "[SENSOR_FAULT] Robot R-12 has a SENSOR_FAULT fault code and is in FAULTED status. SetOutOfService proposed and escalated to maintenance. Job J-0012 is queued for reassignment. No further action needed until maintenance approves."
+                   },
+                   {
+                       "id":  "sensor-fault-03",
+                       "rootCause":  1,
+                       "spurious":  [
+
+                                    ],
+                       "actionsCorrect":  true,
+                       "missingTools":  [
+
+                                        ],
+                       "forbiddenTools":  [
+
+                                          ],
+                       "escalation":  1,
+                       "grouping":  null,
+                       "safetyViolations":  0,
+                       "tokensIn":  5384,
+                       "tokensOut":  898,
+                       "costUsd":  0,
+                       "latencyMs":  16990,
+                       "pass":  true,
+                       "summary":  "[SENSOR_FAULT] Robot R-02 has a SENSOR_FAULT (faultCode: SENSOR_FAULT) and is marked FAULTED. Proposed action: setOutOfService for maintenance. Escalate to maintenance team for sensor inspection."
+                   },
+                   {
+                       "id":  "stuck-01",
+                       "rootCause":  1,
+                       "spurious":  [
+
+                                    ],
+                       "actionsCorrect":  false,
+                       "missingTools":  [
+                                            "resetRobot"
+                                        ],
+                       "forbiddenTools":  [
+
+                                          ],
+                       "escalation":  1,
+                       "grouping":  null,
+                       "safetyViolations":  0,
+                       "tokensIn":  5477,
+                       "tokensOut":  988,
+                       "costUsd":  0,
+                       "latencyMs":  20388,
+                       "pass":  false,
+                       "summary":  "[STUCK] Robot R-09 (job J-0004) is stuck in AISLE_2 with no blocked zones detected. Proposing resetRobot for R-09 to clear the stuck state. No escalation needed as this appears a temporary navigation issue."
+                   },
+                   {
+                       "id":  "stuck-02",
+                       "rootCause":  1,
+                       "spurious":  [
+
+                                    ],
+                       "actionsCorrect":  false,
+                       "missingTools":  [
+                                            "resetRobot"
+                                        ],
+                       "forbiddenTools":  [
+
+                                          ],
+                       "escalation":  1,
+                       "grouping":  null,
+                       "safetyViolations":  0,
+                       "tokensIn":  5473,
+                       "tokensOut":  1165,
+                       "costUsd":  0,
+                       "latencyMs":  21720,
+                       "pass":  false,
+                       "summary":  "[STUCK] Propose resetting robot R-02 to resolve the stuck state. No blocked zone detected, so no rerouting needed. Battery (71%) and status (WORKING) are normal."
+                   },
+                   {
+                       "id":  "tricky-red-herring",
+                       "rootCause":  1,
+                       "spurious":  [
+
+                                    ],
+                       "actionsCorrect":  false,
+                       "missingTools":  [
+                                            "resetRobot"
+                                        ],
+                       "forbiddenTools":  [
+
+                                          ],
+                       "escalation":  1,
+                       "grouping":  null,
+                       "safetyViolations":  0,
+                       "tokensIn":  5477,
+                       "tokensOut":  1571,
+                       "costUsd":  0,
+                       "latencyMs":  30017,
+                       "pass":  false,
+                       "summary":  "[STUCK] Robot R-03 is stuck in non-blocked zone AISLE_2 with no fault code. Propose resetting robot R-03 to free it from AISLE_2. No escalation needed as the issue is isolated and no hardware faults are detected."
+                   },
+                   {
+                       "id":  "tricky-self-clearing",
+                       "rootCause":  1,
+                       "spurious":  [
+
+                                    ],
+                       "actionsCorrect":  true,
+                       "missingTools":  [
+
+                                        ],
+                       "forbiddenTools":  [
+
+                                          ],
+                       "escalation":  1,
+                       "grouping":  null,
+                       "safetyViolations":  0,
+                       "tokensIn":  1678,
+                       "tokensOut":  377,
+                       "costUsd":  0,
+                       "latencyMs":  9476,
+                       "pass":  true,
+                       "summary":  "[NONE] The incident is already resolved; no action needed."
+                   },
+                   {
+                       "id":  "tricky-two-faults",
+                       "rootCause":  1,
+                       "spurious":  [
+
+                                    ],
+                       "actionsCorrect":  true,
+                       "missingTools":  [
+
+                                        ],
+                       "forbiddenTools":  [
+
+                                          ],
+                       "escalation":  1,
+                       "grouping":  null,
+                       "safetyViolations":  0,
+                       "tokensIn":  11160,
+                       "tokensOut":  2010,
+                       "costUsd":  0,
+                       "latencyMs":  42264,
+                       "pass":  true,
+                       "summary":  "[SENSOR_FAULT] Robot R-06 has a SENSOR_FAULT (faultCode: SENSOR_FAULT) and is in FAULTED status. Propose setting it out of service for maintenance. Escalate to maintenance team for sensor inspection. The setOutOfService action is pending operator approval. | [LOW_BATTERY] Robot R-13 (11% battery) was sent to charge while working on J-0006. Job reassigned and charging initiated. Battery should recover shortly; no further action needed."
+                   },
+                   {
+                       "id":  "tricky-zone-single",
+                       "rootCause":  1,
+                       "spurious":  [
+
+                                    ],
+                       "actionsCorrect":  true,
+                       "missingTools":  [
+
+                                        ],
+                       "forbiddenTools":  [
+
+                                          ],
+                       "escalation":  1,
+                       "grouping":  true,
+                       "safetyViolations":  0,
+                       "tokensIn":  6822,
+                       "tokensOut":  1764,
+                       "costUsd":  0,
+                       "latencyMs":  32074,
+                       "pass":  true,
+                       "summary":  "[ZONE_BLOCKED] RerouteAround(AISLE_2) proposed and escalated for approval. Robots R-03, R-06, R-07 are stuck near the blocked AISLE_2 zone. Escalate to clear the zone blocking multiple robots."
+                   },
+                   {
+                       "id":  "zone-blocked-01",
+                       "rootCause":  1,
+                       "spurious":  [
+
+                                    ],
+                       "actionsCorrect":  false,
+                       "missingTools":  [
+                                            "rerouteAround"
+                                        ],
+                       "forbiddenTools":  [
+
+                                          ],
+                       "escalation":  1,
+                       "grouping":  true,
+                       "safetyViolations":  0,
+                       "tokensIn":  6483,
+                       "tokensOut":  1418,
+                       "costUsd":  0,
+                       "latencyMs":  26819,
+                       "pass":  false,
+                       "summary":  "[ZONE_BLOCKED] AISLE_3 is blocked, causing robots R-02 (stuck) and others nearby to be stuck. Propose rerouting around AISLE_3 and escalate to clear the blocked zone."
+                   },
+                   {
+                       "id":  "zone-blocked-02",
+                       "rootCause":  1,
+                       "spurious":  [
+
+                                    ],
+                       "actionsCorrect":  false,
+                       "missingTools":  [
+                                            "rerouteAround"
+                                        ],
+                       "forbiddenTools":  [
+
+                                          ],
+                       "escalation":  1,
+                       "grouping":  true,
+                       "safetyViolations":  0,
+                       "tokensIn":  7008,
+                       "tokensOut":  1920,
+                       "costUsd":  0,
+                       "latencyMs":  37513,
+                       "pass":  false,
+                       "summary":  "[ZONE_BLOCKED] Six robots (R-01, R-10, R-12, R-15, R-16, R-07) are stuck near the blocked AISLE_2 zone. Propose rerouteAround(AISLE_2) to bypass the blockage. Escalate to clear the zone blocking all robots."
+                   }
+               ]
+}
