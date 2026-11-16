@@ -4,11 +4,12 @@ Agentic incident response for a simulated warehouse robot fleet. A Go simulator 
 faults; a TypeScript **Mastra** agent investigates them through **GraphQL** tools, fixes what is safe to fix,
 and sends anything risky to a human for approval; a **React + CopilotKit** dashboard lets an operator watch
 the fleet, chat with the agent and approve its proposals. A 20-scenario golden eval suite measures root-cause
-accuracy, action safety, escalation, cost and latency.
+accuracy, action safety, escalation, cost and latency. An **MCP server** exposes the same tools to outside AI
+clients (Claude Code, VS Code, MCP Inspector) behind the same approval gate.
 
 Runs entirely on a local model (Qwen 3 8B via Ollama). **$0 per eval run, no API keys.**
 
-**Stack:** TypeScript · Mastra · Go · GraphQL (gqlgen) · React · CopilotKit · Ollama · Docker · GitHub Actions
+**Stack:** TypeScript · Mastra · Go · GraphQL (gqlgen) · React · CopilotKit · MCP · Ollama · Docker · GitHub Actions
 
 ```
 ┌────────────────────┐   GraphQL    ┌──────────────────────────┐
@@ -19,8 +20,8 @@ Runs entirely on a local model (Qwen 3 8B via Ollama). **$0 per eval run, no API
           ▼                         └──────────▲───────────────┘
 ┌────────────────────┐   GraphQL tools         │
 │  Agent (TypeScript)│─────────────────────────┘
-│  Mastra agent +    │
-│  triage workflow   │
+│  Mastra agent +    │◄──── MCP (HTTP) ──── Claude Code, VS Code,
+│  triage workflow   │                      any MCP client
 └─────────┬──────────┘
           │
 ┌─────────▼──────────┐
@@ -77,6 +78,12 @@ the same seed replays the same warehouse exactly.
 Triage is a Mastra workflow, not free chat: `detect → group → diagnose → log`, with a Zod-typed result.
 Every run is logged to `logs/runs.jsonl` with each tool call, tokens, cost and latency.
 
+**MCP server (`agent/src/mcp.ts`).** The agent process also serves the
+[Model Context Protocol](https://modelcontextprotocol.io) at `POST /mcp`, so any MCP client can use the fleet:
+the same 13 tools, plus `listProposals` and `runTriage` (the whole workflow, run by the local model). It is
+built from the same tool definitions as the agent, so the tiers can't drift apart, and proposals made over MCP
+appear as approval cards in the dashboard.
+
 **Evals (`evals/`).** Each scenario resets the simulator with a seed (clock paused), injects faults, advances
 time, runs the workflow and scores it. Coverage includes the tricky cases: two unrelated simultaneous faults,
 a red herring, a fault that clears on its own, and a blocked zone with only one stuck robot.
@@ -91,6 +98,9 @@ injector for demos, and a CopilotKit chat sidebar that receives the live fleet s
   `rerouteAround`) only ever create a proposal that an operator approves. The model can't bypass it. Unit tests
   cover the gate, and the evals check for violations twice: in the tool log and in the simulator's real state.
   CI fails on any violation.
+- **An outside AI can propose, never approve.** The MCP server has no approve or reject tool. A high-risk
+  call from an MCP client lands in the same queue as the built-in agent's, and only the operator in the
+  dashboard can run it. A test asserts that no such tool exists.
 - **Actions aren't self-reported.** What the agent did is read from the tool log, not from its own summary.
 - **Structured workflow instead of free chat** for triage, so every run has the same shape and can be scored.
   Chat is still there for open-ended operator questions and shares the same tools and tiers.
@@ -117,6 +127,17 @@ LLM_PROVIDER=mock npx tsx run.ts        # rule-based, no model (what CI runs)
 ```
 
 Or `cp .env.example .env && docker compose up` (Ollama stays on the host so it can use the GPU).
+
+**Use it from an MCP client.** With the simulator and agent running, the MCP endpoint is
+`http://localhost:4000/mcp` (Streamable HTTP, localhost only):
+
+```bash
+claude mcp add --transport http fleet-ops http://localhost:4000/mcp   # Claude Code
+npx @modelcontextprotocol/inspector                                   # or browse the tools by hand
+```
+
+The repo's `.mcp.json` already registers it for Claude Code sessions opened in this folder. Try "which robots
+are stuck and why?" or "run triage". A full triage on the local model can take a minute or two.
 
 **Demo:** in the dashboard, open *Fault injector* → `ZONE_BLOCKED` on `AISLE_3`, wait a few seconds, click
 *Triage all*. The agent groups the stuck robots under one cause, proposes `rerouteAround(AISLE_3)` and

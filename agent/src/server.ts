@@ -4,6 +4,7 @@
 //   POST /api/proposals/:id/approve     run it
 //   POST /api/proposals/:id/reject      drop it
 //   /api/copilotkit/*                   CopilotKit chat, backed by the Mastra agent
+//   POST /mcp                           MCP server: the same tools for outside AI clients (see mcp.ts)
 import { createServer, type IncomingMessage, type ServerResponse } from 'node:http'
 import { MastraAgent } from '@ag-ui/mastra'
 import { Agent } from '@mastra/core/agent'
@@ -12,6 +13,7 @@ import { createCopilotNodeListener } from '@copilotkit/runtime/v2/node'
 import { proposals } from './actions.ts'
 import { config, modelConfig, modelName } from './config.ts'
 import { FleetClient } from './fleet.ts'
+import { handleMcpRequest } from './mcp.ts'
 import { instructions } from './prompt.ts'
 import { RunRecorder } from './recorder.ts'
 import { makeTools } from './tools.ts'
@@ -57,25 +59,32 @@ async function readJson(req: IncomingMessage): Promise<any> {
 }
 
 let triageRunning = false
+const TRIAGE_BUSY = 'a triage run is already in progress'
+
+/** One triage run at a time, whether it was started from the UI or from an MCP client. */
+async function triageOnce(incidentIds?: string[]) {
+  if (triageRunning) throw new Error(TRIAGE_BUSY)
+  triageRunning = true
+  try {
+    return (await runTriage({ fleet, proposals }, incidentIds)).result
+  } finally {
+    triageRunning = false
+  }
+}
 
 const server = createServer(async (req, res) => {
   const url = new URL(req.url ?? '/', 'http://localhost')
   try {
     if (url.pathname.startsWith('/api/copilotkit')) return await copilot(req, res)
+    if (url.pathname === '/mcp') return await handleMcpRequest(req, res, { fleet, proposals, triage: triageOnce })
     if (req.method === 'OPTIONS') return send(res, 204, null)
 
     if (req.method === 'GET' && url.pathname === '/api/health') return send(res, 200, { ok: true, model: modelName() })
 
     if (req.method === 'POST' && url.pathname === '/api/triage') {
-      if (triageRunning) return send(res, 409, { error: 'a triage run is already in progress' })
-      triageRunning = true
-      try {
-        const body = await readJson(req)
-        const { result } = await runTriage({ fleet, proposals }, body.incidentIds)
-        return send(res, 200, result)
-      } finally {
-        triageRunning = false
-      }
+      if (triageRunning) return send(res, 409, { error: TRIAGE_BUSY })
+      const body = await readJson(req)
+      return send(res, 200, await triageOnce(body.incidentIds))
     }
 
     if (req.method === 'GET' && url.pathname === '/api/proposals') {

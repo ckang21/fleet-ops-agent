@@ -12,14 +12,16 @@ The **agent** (TypeScript + an AI model) investigates each problem and fixes it,
 do the safe fixes by itself. Risky fixes go to a human for approval. The **evals** are a test suite for the
 AI: 20 set-up problems with known right answers, so we can measure how good the agent is with a number.
 The **UI** is the screen an operator would use: a map, a list of problems, Approve/Reject buttons, and a
-chat box.
+chat box. The **MCP server** is a door that lets *other* AI apps (like Claude Code) use the same tools,
+under the same safety rules.
 
 ```
  UI (React + CopilotKit)  ── GraphQL ──►  Simulator (Go)
      │ chat + approvals                      ▲
      ▼                                       │ GraphQL
  Agent (TypeScript + Mastra + local AI) ─────┘
-     ▲
+     ▲                    ▲
+     │                    └── MCP ── other AI apps (Claude Code, VS Code...)
  Evals: 20 scenarios → run agent → score → report
 ```
 
@@ -191,6 +193,54 @@ rerun with `npx tsx run.ts --only stuck` (faster than running all 20).
 
 ---
 
+## Part 6: The MCP server — `agent/src/mcp.ts`
+
+**What MCP is:** the Model Context Protocol is a standard plug for AI tools. Before it, every AI app needed
+its own custom wiring for every tool. With MCP, you describe your tools once on a "server", and any AI app
+that speaks MCP (a "client": Claude Code, VS Code, Cursor...) can discover and call them. Think USB: one
+plug shape, many devices.
+
+**What ours does:** it offers 15 tools to any MCP client:
+
+- the same 13 tools the built-in agent has (6 read, 4 low-risk, 3 high-risk),
+- `listProposals` — see what is waiting for a human,
+- `runTriage` — run the whole triage workflow with the local model and get the result back.
+
+**How it works, step by step:**
+
+1. A client sends a `POST` to `http://localhost:4000/mcp`. The messages are JSON-RPC: small JSON notes
+   like "list your tools" or "call getRobot with robotId R-07".
+2. `handleMcpRequest` builds a server and a "transport" (the part that reads and writes HTTP) for that one
+   request. Nothing is remembered between requests ("stateless"), which keeps it simple.
+3. `buildMcpServer` calls the same `makeTools` the agent uses and registers each tool with the MCP SDK,
+   reusing its description and its Zod input schema. The SDK checks the arguments against the schema before
+   our code runs.
+4. The tool runs and the answer goes back as JSON text.
+
+**The important design choices:**
+
+- **One set of tool definitions.** The MCP server doesn't copy the tools, it wraps them. So the safety tiers
+  are identical by construction: a high-risk call from Claude Code becomes a proposal, exactly like one from
+  our own agent.
+- **It lives inside the agent server**, not in a separate program. That way it shares the one approval
+  queue, so a proposal made by an outside AI shows up as a card in the dashboard.
+- **An AI can propose but never approve.** There is no approve or reject tool on purpose. Otherwise an
+  outside AI could propose something risky and then approve itself, and the human check would mean nothing.
+- **Localhost only.** The server checks the `Host` header and refuses anything not addressed to
+  `localhost:4000`. This blocks "DNS rebinding", a trick where a web page gets your browser to talk to
+  servers on your own machine.
+
+**The tests (`agent/test/mcp.test.ts`)** connect a real MCP client to the real server in memory (no network)
+and check: all 15 tools are listed, none of them can approve or reject, high-risk calls never touch the
+fleet, bad arguments are rejected, and `runTriage` passes its input through.
+
+**Try it:** start the simulator and the agent, then in Claude Code run
+`claude mcp add --transport http fleet-ops http://localhost:4000/mcp` (or just open Claude Code in this
+folder; `.mcp.json` registers it). Ask "which robots are stuck and why?". Then ask it to reroute around an
+aisle and watch the approval card appear in the dashboard.
+
+---
+
 ## How to run it yourself
 
 ```bash
@@ -229,6 +279,9 @@ Things to try:
   eval metric that checks real simulator state. CI blocks merges if it's ever violated.
 - **"How do you know it works?"** 20 golden scenarios with expected outcomes, scored on root cause, actions,
   escalation, grouping, safety, cost and latency. Then the before/after numbers.
+- **"What is MCP and why add it?"** A standard protocol for giving AI apps tools. Adding a server means any
+  MCP client can operate the fleet without custom integration. Mine wraps the existing tool definitions, so
+  outside clients get the same safety tiers, and it has no approve tool, so an AI can't approve itself.
 - **"Why a workflow instead of letting the agent chat?"** Predictable, comparable, scorable runs. Chat is
   still there for open-ended questions.
 - **"Why seeded scenarios?"** Same seed, same warehouse, so a change in score is caused by your change, not

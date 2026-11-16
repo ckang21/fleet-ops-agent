@@ -42,5 +42,8 @@ Monorepo: `fleet-sim/`, `agent/`, `evals/`, `ui/`, `docker-compose.yml`, `README
 4. **ui:** fleet map, incident panel with Triage, CopilotKit chat with fleet state as context,
    approval cards (Approve / Reject), fault injector.
 5. **packaging:** docker-compose, `.env.example`, README (pitch, diagram, eval table, design decisions, next steps).
+6. **MCP server (`agent/src/mcp.ts`, added 2026-11-15):** served by the agent process at `POST /mcp` (stateless
+   Streamable HTTP, localhost only) so it shares the proposal store with the UI. Wraps `makeTools`, plus
+   `listProposals` and `runTriage`. Never add an approve/reject tool: approval belongs to the operator only.
 
 Check current docs/installed types for Mastra, CopilotKit and gqlgen; their APIs change quickly.

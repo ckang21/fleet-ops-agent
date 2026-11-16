@@ -18,6 +18,7 @@
     "@ag-ui/mastra": "^2.0.1",
     "@copilotkit/runtime": "^1.79.1",
     "@mastra/core": "^1.78.0",
+    "@modelcontextprotocol/sdk": "^1.32.2",
     "graphql": "^16.14.2",
     "graphql-request": "^7.4.0",
     "zod": "^4.6.7"
